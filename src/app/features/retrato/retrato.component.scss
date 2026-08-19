@@ -133,12 +133,13 @@ $partes: ojos, boca, manos, pecho, pies;
   }
 }
 
-// Se oculta solo cuando el dispositivo tiene puntero fino y hover real
-// (ratón/trackpad): ahí los hotspots ya son fáciles de pulsar con precisión.
-// No se usa un ancho de pantalla porque un iPad es tan táctil como un móvil
-// aunque tenga pantalla grande. No es display:none, para que la lista siga
-// en el árbol de accesibilidad y alcanzable con teclado (§11).
-@media (pointer: fine) and (hover: hover) {
+// Se oculta a partir del ancho estándar de un iPad en vertical, para que
+// desaparezca en tablet además de en escritorio (decisión explícita: se
+// acepta perder la alternativa en lista en pantallas táctiles grandes,
+// donde los hotspots ya tienen más margen para acertarlos con el dedo).
+// No es display:none, para que la lista siga en el árbol de accesibilidad
+// y alcanzable con teclado en cualquier tamaño (§11).
+@media (min-width: 700px) {
   .retrato-lista {
     position: absolute;
     width: 1px;
