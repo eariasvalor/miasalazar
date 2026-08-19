@@ -24,7 +24,7 @@ export const HOTSPOTS_EN: Hotspot[] = [
     etiquetaAccesible: 'See the languages Mia speaks',
     eyebrow: 'Languages',
     titulo: 'Five languages',
-    cuerpo: 'TODO: which five languages does Mia speak?',
+    cuerpo: '¡Hola! · Hola! · Hello! · Hej! · Hallo!',
   },
   {
     id: 'manos',
