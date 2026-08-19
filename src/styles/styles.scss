@@ -1,0 +1,8 @@
+@use 'tokens';
+@use 'reset';
+
+body {
+  background: var(--c-ink);
+  color: var(--c-hueso);
+  font-family: var(--f-body);
+}
