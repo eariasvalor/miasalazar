@@ -2,7 +2,9 @@ name: Deploy a GitHub Pages
 
 on:
   push:
-    branches: [main]
+    # TODO: quitar 'claude/arquitectura-prompt-7ii17r' cuando volvamos a
+    # trabajar con PRs a main en vez de desplegar directo desde esta rama.
+    branches: [main, claude/arquitectura-prompt-7ii17r]
   workflow_dispatch:
 
 permissions:
