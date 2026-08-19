@@ -97,36 +97,38 @@ $partes: ojos, boca, manos, pecho, pies;
 }
 
 .retrato-lista {
-  max-width: 32rem;
+  max-width: 18rem;
   margin: var(--s-4) auto 0;
 
   ul {
     list-style: none;
     padding: 0;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--s-1);
+    flex-direction: column;
+  }
+
+  li + li {
+    border-top: 1px solid color-mix(in srgb, var(--c-slate) 25%, transparent);
   }
 
   button {
+    width: 100%;
     min-height: 44px;
-    padding: var(--s-1) var(--s-2);
+    padding: var(--s-1) 0;
     font-family: var(--f-body);
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
+    letter-spacing: 0.02em;
+    text-align: center;
     color: var(--c-slate);
-    border: 1px solid var(--c-slate);
-    border-radius: 999px;
 
     &:hover,
     &:focus-visible {
       color: var(--c-hueso);
-      border-color: var(--c-ajolote);
     }
 
     &:focus-visible {
       outline: 2px solid var(--c-ajolote);
-      outline-offset: 2px;
+      outline-offset: -2px;
     }
   }
 }
