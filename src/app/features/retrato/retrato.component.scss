@@ -130,3 +130,20 @@ $partes: ojos, boca, manos, pecho, pies;
     }
   }
 }
+
+// Por encima del punto en el que los hotspots ya son fáciles de pulsar con
+// precisión, la lista se oculta visualmente — pero no con display:none, para
+// que siga en el árbol de accesibilidad y alcanzable con teclado (§11).
+@media (min-width: 640px) {
+  .retrato-lista {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
