@@ -29,13 +29,16 @@ Su proyecto actual es una colección de canciones sobre **duelo migratorio y rec
 
 | Capa | Elección | Por qué |
 |---|---|---|
-| Framework | **Angular** (standalone components + signals) | El equipo ya domina Angular. Compila a estático, suficiente para GitHub Pages. |
+| Framework | **Angular 22** (standalone + signals, **zoneless**) | El equipo ya domina Angular. Compila a estático, suficiente para GitHub Pages. Zoneless porque el estado es 100% signals y no hay dependencias de terceros que necesiten zone.js. |
 | Estilos | **SCSS** con custom properties | Los tokens de diseño viven en CSS variables, editables sin recompilar. Sin framework de utilidades: el diseño es demasiado específico para Tailwind. |
-| Animación | **@angular/animations** + CSS | Suficiente para popups, reveals y microinteracciones. Sin librerías externas. |
-| Routing | **Angular Router** con `withHashLocation()` *o* fallback `404.html` | GitHub Pages no soporta rewrites del lado servidor (ver §9). |
+| Animación | **CSS** (keyframes/transiciones) para microinteracciones puntuales; `@angular/animations` se añadirá solo si aparece algo que lo necesite de verdad (secuencias coordinadas entre varios elementos) | El popup ya usa CSS puro y es suficiente; evita una dependencia que hasta ahora no ha hecho falta. |
+| Routing | **Angular Router** con `withHashLocation()` — decidido, no `404.html` | GitHub Pages no soporta rewrites del lado servidor (ver §9). |
 | Idioma | **Español + inglés**, prefijo de ruta (`/es/`, `/en/`) con servicio de locale propio | Público repartido entre España, México, Suecia y Alemania. Ver §5.5. |
 | Estado | **Signals** + servicios `providedIn: 'root'` | No hace falta NgRx: el estado es mínimo (popup abierto, acto activo, idioma). |
 | Contenido | **Archivos TypeScript tipados** en `src/app/data/` | Sin CMS ni backend. Editar contenido = editar un archivo y hacer push. |
+| Accesibilidad | **`@angular/cdk/a11y`** (`CdkTrapFocus`) | Única dependencia externa añadida hasta ahora, ya prevista en §5.2. |
+| Tests | **Vitest** (test runner por defecto de Angular 22) | Viene de serie con `ng new`; no se ha evaluado ninguna alternativa por ahora. |
+| Imágenes | **sharp** (dev dependency) vía `scripts/process-images.mjs` | Genera AVIF/WebP en varios anchos antes de commitear (ver §7). Construido ya en la Fase 2 para poder usar la foto placeholder del retrato, no solo en la Fase 4. |
 | Hosting | **GitHub Pages** + GitHub Actions | Gratuito, HTTPS incluido, dominio propio soportado. |
 | Formularios | **Formspree / Buttondown** (embed externo) | Pages no ejecuta backend. Ver §8. |
 
@@ -52,71 +55,82 @@ Para este proyecto ninguna de estas limitaciones es bloqueante.
 
 ## 3. Estructura de carpetas
 
+Estado real a fecha de la Fase 2 (✅ construido, ⬜ aún no):
+
 ```
-mia-salazar-web/
+miasalazar/                         # nombre del repo; el proyecto Angular interno se llama mia-salazar-web
 ├── .github/
 │   └── workflows/
-│       └── deploy.yml              # CI: build + deploy a Pages
+│       └── deploy.yml              # ✅ CI: test + build + deploy a Pages
+├── assets-source/                  # ✅ originales sin procesar (fuera del árbol de build de Angular)
+│   └── retrato/
+│       └── mia-retrato-original.png
+├── scripts/
+│   └── process-images.mjs          # ✅ genera AVIF/WebP en varios anchos con sharp (construido en Fase 2, no en Fase 4)
 ├── public/
-│   ├── CNAME                       # solo si hay dominio propio
-│   ├── .nojekyll                   # evita que Pages ignore carpetas con _
-│   ├── favicon.svg
-│   └── og-image.jpg                # imagen para redes sociales
+│   ├── CNAME                       # ⬜ solo cuando haya dominio propio
+│   ├── .nojekyll                   # ✅
+│   ├── favicon.ico                 # ✅ (favicon.svg queda pendiente, de momento el .ico por defecto de ng new)
+│   └── og-image.jpg                # ⬜ Fase 5
 ├── src/
 │   ├── app/
 │   │   ├── core/
+│   │   │   ├── guards/
+│   │   │   │   └── lang.guard.ts           # ✅ sincroniza :lang con LocaleService, redirige si no es válido
 │   │   │   ├── services/
-│   │   │   │   ├── content.service.ts      # sirve datos tipados según idioma activo
-│   │   │   │   ├── locale.service.ts       # idioma activo (signal), persistencia, detección inicial
-│   │   │   │   ├── popup.service.ts        # estado del popup activo
-│   │   │   │   └── seo.service.ts          # title + meta tags + hreflang por ruta
+│   │   │   │   ├── content.service.ts      # ✅ sirve datos tipados según idioma activo
+│   │   │   │   ├── locale.service.ts       # ✅ idioma activo (signal), persistencia, detección inicial
+│   │   │   │   ├── popup.service.ts        # ✅ estado del popup activo + punto de origen para la animación
+│   │   │   │   └── seo.service.ts          # ⬜ Fase 5: title + meta tags + hreflang por ruta
 │   │   │   └── models/
-│   │   │       ├── hotspot.model.ts
-│   │   │       ├── acto.model.ts
-│   │   │       ├── cancion.model.ts
-│   │   │       └── locale.model.ts         # type Locale = 'es' | 'en'
+│   │   │       ├── hotspot.model.ts        # ✅
+│   │   │       ├── acto.model.ts           # ⬜ Fase 3
+│   │   │       ├── cancion.model.ts        # ⬜ Fase 3
+│   │   │       └── locale.model.ts         # ✅ type Locale = 'es' | 'en'
 │   │   ├── data/
 │   │   │   ├── es/
-│   │   │   │   ├── hotspots.data.ts
-│   │   │   │   ├── actos.data.ts
-│   │   │   │   └── bio.data.ts
+│   │   │   │   ├── hotspots.data.ts        # ✅ (varios campos siguen en TODO, ver §13)
+│   │   │   │   ├── actos.data.ts           # ⬜ Fase 3
+│   │   │   │   └── bio.data.ts             # ⬜
 │   │   │   ├── en/
-│   │   │   │   ├── hotspots.data.ts
-│   │   │   │   ├── actos.data.ts
-│   │   │   │   └── bio.data.ts
-│   │   │   └── canciones.data.ts           # sin traducir: títulos, IDs, fechas, enlaces
+│   │   │   │   ├── hotspots.data.ts        # ✅
+│   │   │   │   ├── actos.data.ts           # ⬜ Fase 3
+│   │   │   │   └── bio.data.ts             # ⬜
+│   │   │   └── canciones.data.ts           # ⬜ Fase 3: sin traducir — títulos, IDs, fechas, enlaces
 │   │   ├── features/
+│   │   │   ├── home/
+│   │   │   │   └── home.component.*        # ✅ monta <app-retrato>
 │   │   │   ├── retrato/
-│   │   │   │   ├── retrato.component.ts    # imagen + hotspots + filamentos
+│   │   │   │   ├── retrato.component.ts    # ✅ imagen + hotspots + filamentos calculados + lista alternativa
 │   │   │   │   ├── retrato.component.html
 │   │   │   │   └── retrato.component.scss
 │   │   │   ├── actos/
-│   │   │   │   └── actos.component.*       # los 4 actos + canciones
+│   │   │   │   └── actos.component.*       # ⬜ Fase 3: los 4 actos + canciones
 │   │   │   ├── escucha/
-│   │   │   │   └── escucha.component.*     # embeds Spotify/YouTube
+│   │   │   │   └── escucha.component.*     # ⬜ Fase 3: embeds Spotify/YouTube
 │   │   │   └── contacto/
-│   │   │       └── contacto.component.*
+│   │   │       └── contacto.component.*    # ⬜
 │   │   ├── shared/
 │   │   │   ├── popup/
-│   │   │   │   └── popup.component.*       # modal accesible reutilizable
+│   │   │   │   └── popup.component.*       # ✅ modal accesible reutilizable
 │   │   │   ├── lazy-media/
-│   │   │   │   └── lazy-media.component.*  # embeds con carga diferida
+│   │   │   │   └── lazy-media.component.*  # ⬜ Fase 3: embeds con carga diferida
 │   │   │   └── directives/
-│   │   │       └── reveal-on-scroll.directive.ts
-│   │   ├── app.component.ts
-│   │   ├── app.config.ts
-│   │   └── app.routes.ts
+│   │   │       └── reveal-on-scroll.directive.ts  # ⬜
+│   │   ├── app.component.ts                # ✅ cabecera + selector ES/EN + <html lang> dinámico
+│   │   ├── app.config.ts                   # ✅ withHashLocation()
+│   │   └── app.routes.ts                   # ✅ :lang + redirectTo por función
 │   ├── assets/
 │   │   ├── img/
-│   │   │   ├── retrato/                    # foto principal (varios tamaños)
-│   │   │   └── galeria/
-│   │   └── fonts/                          # self-hosted, ver §7
+│   │   │   ├── retrato/                    # ✅ AVIF/WebP en 640/1024/1179px (foto placeholder)
+│   │   │   └── galeria/                    # ⬜ Fase 4
+│   │   └── fonts/                          # ⬜ Fraunces/Inter aún no autoalojadas, ver §7
 │   ├── styles/
-│   │   ├── _tokens.scss                    # paleta, tipografía, espaciado
-│   │   ├── _mixins.scss
-│   │   ├── _reset.scss
-│   │   └── styles.scss                     # punto de entrada global
-│   ├── index.html
+│   │   ├── _tokens.scss                    # ✅ paleta, tipografía, espaciado
+│   │   ├── _mixins.scss                    # ✅ (vacío por ahora)
+│   │   ├── _reset.scss                     # ✅
+│   │   └── styles.scss                     # ✅ punto de entrada global
+│   ├── index.html                          # ✅ (meta OG/JSON-LD pendientes, Fase 5)
 │   └── main.ts
 ├── angular.json
 ├── package.json
@@ -203,7 +217,7 @@ Puntos críticos:
 - **Los hotspots son `<button>` reales**, no divs. Esto da foco por teclado, `Enter`/`Space` y semántica gratis.
 - Posiciones en **porcentajes**, nunca en píxeles, para que escalen con la imagen.
 - Área táctil mínima **44×44px** aunque el punto visible sea de 8px (usar padding transparente).
-- En móvil, si los hotspots quedan demasiado juntos, el componente debe ofrecer una **lista alternativa** debajo de la imagen con los mismos cinco enlaces. No es un extra de accesibilidad: es la única forma de que funcione en pantallas pequeñas.
+- Además de los hotspots, hay una **lista alternativa** debajo de la imagen con los mismos cinco enlaces, siempre presente en el DOM. Implementada: en escritorio/tablet (`min-width: 700px`) se oculta *visualmente* con la técnica `visually-hidden` (no `display:none`), así que sigue alcanzable con teclado y lector de pantalla aunque no se vea; por debajo de ese ancho se ve como una lista de texto simple. Se descartó ocultarla por tipo de puntero (`pointer`/`hover`) porque Safari en iPad lo reporta como táctil sin hover, y eso la mostraba siempre ahí — justo lo contrario de lo que se quería.
 - Los filamentos SVG usan `viewBox="0 0 100 100"` con coordenadas derivadas de las mismas posiciones de los hotspots — deben calcularse, no escribirse a mano dos veces.
 
 ### 5.2 `PopupComponent` — modal accesible
@@ -216,7 +230,7 @@ Requisitos no negociables:
 - `Escape` cierra. Click en el fondo cierra.
 - `overflow: hidden` en el body mientras está abierto.
 
-Angular CDK (`@angular/cdk/a11y` → `FocusTrap`, `LiveAnnouncer`) resuelve esto sin escribirlo a mano. Es la única dependencia externa que merece la pena añadir.
+Angular CDK (`@angular/cdk/a11y`) resuelve esto sin escribirlo a mano. Es la única dependencia externa que merece la pena añadir. **Implementado con `CdkTrapFocus` + `cdkTrapFocusAutoCapture`**; `LiveAnnouncer` no ha hecho falta hasta ahora.
 
 ### 5.3 `LazyMediaComponent` — embeds diferidos
 
@@ -399,11 +413,13 @@ Dado que este sitio es esencialmente una sola página larga con anclas, **la opc
 ### `base-href`
 
 - **Con dominio propio** (`miasalazar.com`) → `--base-href=/`
-- **Sin dominio propio** (`usuario.github.io/mia-salazar-web`) → `--base-href=/mia-salazar-web/`
+- **Sin dominio propio** (`eariasvalor.github.io/miasalazar`) → `--base-href=/miasalazar/` ← **valor actual en uso** (el repo se llama `miasalazar`, no `mia-salazar-web` — ese es solo el nombre interno del proyecto Angular dentro del repo, usado en `dist/mia-salazar-web/browser`)
 
 Equivocarse aquí es la causa número uno de "se ve todo sin estilos" tras el primer deploy.
 
 ### Workflow de CI
+
+Versiones verificadas y en uso a fecha de la Fase 1 (comprobar si hay más recientes antes de tocar este archivo):
 
 ```yaml
 # .github/workflows/deploy.yml
@@ -412,6 +428,7 @@ name: Deploy a GitHub Pages
 on:
   push:
     branches: [main]
+    # + rama de trabajo mientras no usamos PRs a main, ver nota más abajo
   workflow_dispatch:
 
 permissions:
@@ -427,15 +444,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run build -- --base-href=/mia-salazar-web/
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - run: npm run test -- --watch=false
+      - run: npm run build -- --base-href=/miasalazar/
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: dist/mia-salazar-web/browser
 
@@ -447,12 +465,14 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 ```
 
-> **Verificar antes de usar:** la ruta exacta de `dist/` depende de la versión de Angular (las versiones recientes añaden el subdirectorio `browser/`). Comprobar con un `ng build` local. Conviene también revisar si hay versiones más recientes de las actions.
+> **Verificar antes de usar de nuevo:** las versiones de arriba se comprobaron en agosto de 2026; revisar si hay más recientes antes de volver a tocar este archivo. La ruta `dist/mia-salazar-web/browser` ya está confirmada contra Angular 22 (build real, no supuesto).
 
-En el repositorio: **Settings → Pages → Source: GitHub Actions**.
+En el repositorio: **Settings → Pages → Source: GitHub Actions** — imprescindible; con "Deploy from a branch" Pages sirve los archivos del repo tal cual, sin ejecutar `ng build`, y solo se ve el `README.md` renderizado (nos pasó una vez).
+
+**Nota temporal:** mientras no abrimos PRs de esta rama a `main`, el trigger incluye también `claude/arquitectura-prompt-7ii17r` para poder ver los cambios desplegados sin mergear. Quitar esa rama del trigger en cuanto se retome el flujo de PRs.
 
 ### Checklist de dominio propio
 
@@ -508,19 +528,19 @@ No es una capa opcional al final; se comprueba en cada PR.
 
 ## 12. Fases
 
-**Fase 1 — Esqueleto**
+**Fase 1 — Esqueleto ✅ completada**
 Proyecto Angular, tokens de diseño, despliegue funcionando en Pages con una página en blanco. Desplegar el primer día, aunque no haya nada que ver, evita sorpresas al final.
 
-**Fase 2 — Retrato**
-`RetratoComponent` + `PopupComponent` con contenido real. Es el núcleo: si esto no funciona bien, el resto no importa.
+**Fase 2 — Retrato ✅ completada** (contenido aún parcial, ver §13)
+`RetratoComponent` + `PopupComponent` con contenido real. Es el núcleo: si esto no funciona bien, el resto no importa. Falta: foto definitiva (se usa una placeholder), textos de ojos/manos/pies (marcados `TODO` en `hotspots.data.ts`), fuentes Fraunces/Inter autoalojadas.
 
-**Fase 3 — Actos y música**
+**Fase 3 — Actos y música ⬜ siguiente**
 `ActosComponent`, `LazyMediaComponent`, embeds de las cuatro canciones publicadas.
 
-**Fase 4 — Galería y audiovisual**
+**Fase 4 — Galería y audiovisual ⬜**
 Fotografías, vídeos, material de prensa.
 
-**Fase 5 — Pulido**
+**Fase 5 — Pulido ⬜**
 Auditoría Lighthouse, accesibilidad, metadatos, dominio propio, pruebas en dispositivos reales.
 
 ---
@@ -532,6 +552,7 @@ Ya resuelto: el sitio será **bilingüe, español e inglés** (§5.5). El conten
 Pendientes de resolver con Mia:
 
 - **¿Newsletter?** Si va a ir publicando canción a canción, tener una lista propia vale más que depender del algoritmo de Spotify.
-- **Fotografías definitivas** y sus derechos de uso (las de prensa suelen tener crédito de fotógrafo obligatorio).
+- **Fotografías definitivas** y sus derechos de uso (las de prensa suelen tener crédito de fotógrafo obligatorio). De momento se usa una foto placeholder de busto; además de no ser la definitiva, no muestra pies y dificulta ubicar bien las manos, así que las posiciones de esos dos hotspots son provisionales.
 - **Nombre del Acto II** cuando se publique.
-- **Textos definitivos en inglés**: si los traduce ella misma o se encarga el equipo — afecta al tono, sobre todo en las citas de letras, donde una traducción literal puede perder el registro.
+- **Textos definitivos en inglés**: si los traduce ella misma o se encarga el equipo — afecta al tono, sobre todo en las citas de letras, donde una traducción literal puede perder el registro. Resuelto parcialmente: el texto de "boca" (saludo en los cinco idiomas) es idéntico en ambos locales por naturaleza, así que no depende de esta decisión.
+- **Textos aún en `TODO` en `hotspots.data.ts`**: la historia de "ojos" (raíces/infancia), detalle de "manos" (¿más instrumentos?) y fechas del mapa de "pies". Confirmados hasta ahora: los cinco idiomas de "boca" (español, catalán, inglés, sueco, alemán).

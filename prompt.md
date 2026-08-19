@@ -116,3 +116,18 @@ Una vez completada cada fase, usa estos:
 > Pasa una auditoría Lighthouse y de accesibilidad. Añade las metaetiquetas Open Graph y el JSON-LD de tipo MusicGroup en `index.html`. Dame la lista de lo que falla y arréglalo por orden de impacto.
 
 ---
+
+## Estado (actualizado durante la ejecución, no forma parte del brief original)
+
+**Fases 1 y 2 completadas.** Detalle real de lo construido y las decisiones tomadas en el camino: ver `arquitectura.md` (secciones 2, 3, 9, 12 y 13 se han ido actualizando a medida que se avanzaba, en vez de mantener este archivo como brief congelado).
+
+Decisiones confirmadas que no estaban cerradas en el brief original:
+- Routing: hash (`withHashLocation()`), no `404.html`.
+- Sin dominio propio por ahora → `--base-href=/miasalazar/`. Cuando haya dominio, cambiar a `/`.
+- Angular zoneless (no zone.js) — encaja con un stack 100% signals.
+- Los cinco idiomas de Mia (para el hotspot de "boca"): español, catalán, inglés, sueco, alemán.
+- Mientras no se abran PRs a `main`, el despliegue también dispara desde la rama de trabajo (ver nota en `arquitectura.md` §9) — hay que revertir esto cuando se retome el flujo normal de PRs.
+
+Pendiente de Mia, sin lo cual no se puede avanzar el contenido (no inventado, ver regla 7): historia de "ojos" (raíces/infancia), detalle de instrumentos en "manos", fechas del mapa en "pies", foto definitiva del retrato (se usa una placeholder de busto que no incluye pies y deja las manos en sombra).
+
+---
