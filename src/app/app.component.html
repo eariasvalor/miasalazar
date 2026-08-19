@@ -1,0 +1,19 @@
+<header class="site-header">
+  <span class="site-header__brand">Mia Salazar</span>
+  <nav class="lang-switch" aria-label="Idioma / Language">
+    <a
+      routerLink="/es"
+      [class.is-active]="locale() === 'es'"
+      [attr.aria-current]="locale() === 'es' ? 'true' : null"
+      >ES</a
+    >
+    <a
+      routerLink="/en"
+      [class.is-active]="locale() === 'en'"
+      [attr.aria-current]="locale() === 'en' ? 'true' : null"
+      >EN</a
+    >
+  </nav>
+</header>
+
+<router-outlet />

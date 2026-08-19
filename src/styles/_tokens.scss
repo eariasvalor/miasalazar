@@ -1,0 +1,34 @@
+:root {
+  /* Paleta — tensión frío nórdico / calor migrante */
+  --c-ink: #10151f; /* fondo base, aguas heladas */
+  --c-ink-soft: #171f2b; /* fondo secundario */
+  --c-slate: #4a5a6b; /* texto de apoyo, líneas */
+  --c-terracota: #b8543a; /* raíz mexicana-andaluza — solo bordes/acentos, nunca texto */
+  --c-ajolote: #e3919c; /* acento emocional, hotspots */
+  --c-hueso: #ede6dd; /* texto principal */
+
+  /* Tipografía */
+  /* TODO(Fase 1 pendiente): autoalojar Fraunces e Inter en src/assets/fonts/
+     y añadir @font-face aquí. Hasta entonces se usan fallbacks del sistema. */
+  --f-display: 'Fraunces', Georgia, serif; /* títulos, letras */
+  --f-body: 'Inter', system-ui, sans-serif; /* UI, textos */
+
+  /* Escala tipográfica (fluida) */
+  --t-xs: 0.75rem;
+  --t-sm: 0.875rem;
+  --t-md: 1rem;
+  --t-lg: clamp(1.25rem, 3vw, 1.6rem);
+  --t-xl: clamp(1.6rem, 5vw, 2.4rem);
+  --t-2xl: clamp(2.4rem, 8vw, 5rem);
+
+  /* Espaciado */
+  --s-1: 0.5rem;
+  --s-2: 1rem;
+  --s-3: 1.5rem;
+  --s-4: 2rem;
+  --s-6: 3rem;
+  --s-8: 5rem;
+
+  /* Movimiento */
+  --e-suave: cubic-bezier(0.22, 0.61, 0.36, 1);
+}

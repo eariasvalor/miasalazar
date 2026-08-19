@@ -1,0 +1,38 @@
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--s-2) var(--s-3);
+  font-family: var(--f-body);
+}
+
+.site-header__brand {
+  font-family: var(--f-display);
+  font-style: italic;
+  color: var(--c-hueso);
+}
+
+.lang-switch {
+  display: flex;
+  gap: var(--s-1);
+
+  a {
+    padding: var(--s-1);
+    min-width: 44px;
+    min-height: 44px;
+    display: grid;
+    place-items: center;
+    color: var(--c-slate);
+    text-decoration: none;
+    font-size: var(--t-sm);
+
+    &:focus-visible {
+      outline: 2px solid var(--c-ajolote);
+      outline-offset: 2px;
+    }
+
+    &.is-active {
+      color: var(--c-hueso);
+    }
+  }
+}
