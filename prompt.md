@@ -116,10 +116,3 @@ Una vez completada cada fase, usa estos:
 > Pasa una auditoría Lighthouse y de accesibilidad. Añade las metaetiquetas Open Graph y el JSON-LD de tipo MusicGroup en `index.html`. Dame la lista de lo que falla y arréglalo por orden de impacto.
 
 ---
-
-## Notas para ti (no las pegues en el prompt)
-
-- **El contenido biográfico se limita a lo que Mia apruebe explícitamente para la web.** No incorpores a los archivos de datos nada que provenga solo de entrevistas o prensa externa sin confirmárselo antes a ella.
-- **Los textos en inglés necesitan traductor**, sobre todo las citas de letras: una traducción literal puede perder el registro emocional. Decidid si los traduce ella o el equipo antes de rellenar `data/en/`.
-- **Los créditos de las fotos de prensa** suelen ser obligatorios. Pídeselos junto con los archivos originales.
-- **Despliega el primer día**, aunque la página esté vacía. Los problemas de `base-href` y rutas de `dist/` aparecen siempre, y es mucho mejor que aparezcan cuando no hay nada que perder.
