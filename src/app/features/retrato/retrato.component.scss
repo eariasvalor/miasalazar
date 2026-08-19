@@ -1,0 +1,132 @@
+$partes: ojos, boca, manos, pecho, pies;
+
+.stage {
+  position: relative;
+  max-width: 32rem;
+  margin-inline: auto;
+}
+
+.retrato-imagen-wrap {
+  position: relative;
+  aspect-ratio: 1179 / 1172;
+  overflow: hidden;
+  filter: grayscale(1) contrast(1.05);
+
+  // Tratamiento duotono: desaturación (arriba) + degradado frío/terracota
+  // mezclado por color, para que el calor solo aparezca donde el retrato
+  // ya tiene tonos claros — nunca sobre el fondo.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, var(--c-ink) 0%, var(--c-terracota) 100%);
+    mix-blend-mode: color;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.filamentos {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.filamento {
+  stroke: var(--c-slate);
+  stroke-width: 0.3;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.5;
+  transition:
+    stroke 200ms var(--e-suave),
+    opacity 200ms var(--e-suave);
+}
+
+.hotspots {
+  position: absolute;
+  inset: 0;
+}
+
+.hotspot {
+  position: absolute;
+  translate: -50% -50%;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--c-ajolote);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-ajolote) 25%, transparent);
+    transition: transform 200ms var(--e-suave);
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    transform: scale(1.4);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--c-ajolote);
+    outline-offset: 2px;
+  }
+}
+
+// Un filamento se ilumina cuando su hotspot recibe hover o foco por teclado.
+@each $parte in $partes {
+  .stage:has(
+      .hotspot[data-hotspot='#{$parte}']:hover,
+      .hotspot[data-hotspot='#{$parte}']:focus-visible
+    )
+    .filamento[data-hotspot='#{$parte}'] {
+    stroke: var(--c-ajolote);
+    opacity: 1;
+  }
+}
+
+.retrato-lista {
+  max-width: 32rem;
+  margin: var(--s-4) auto 0;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--s-1);
+  }
+
+  button {
+    min-height: 44px;
+    padding: var(--s-1) var(--s-2);
+    font-family: var(--f-body);
+    font-size: var(--t-sm);
+    color: var(--c-slate);
+    border: 1px solid var(--c-slate);
+    border-radius: 999px;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--c-hueso);
+      border-color: var(--c-ajolote);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--c-ajolote);
+      outline-offset: 2px;
+    }
+  }
+}

@@ -1,0 +1,70 @@
+<div class="stage">
+  <div class="retrato-imagen-wrap">
+    <picture>
+      <source
+        type="image/avif"
+        srcset="
+          assets/img/retrato/mia-retrato-640.avif   640w,
+          assets/img/retrato/mia-retrato-1024.avif 1024w,
+          assets/img/retrato/mia-retrato-1179.avif 1179w
+        "
+        sizes="(min-width: 768px) 480px, 90vw"
+      />
+      <source
+        type="image/webp"
+        srcset="
+          assets/img/retrato/mia-retrato-640.webp   640w,
+          assets/img/retrato/mia-retrato-1024.webp 1024w,
+          assets/img/retrato/mia-retrato-1179.webp 1179w
+        "
+        sizes="(min-width: 768px) 480px, 90vw"
+      />
+      <img
+        src="assets/img/retrato/mia-retrato-1024.webp"
+        width="1179"
+        height="1172"
+        fetchpriority="high"
+        alt="Retrato de Mia Salazar, mirando a cámara bajo una luz cálida naranja, con el pelo corto oscuro y un top negro"
+      />
+    </picture>
+  </div>
+
+  <svg class="filamentos" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    @for (f of filamentos(); track f.id) {
+      <line
+        class="filamento"
+        [attr.data-hotspot]="f.id"
+        [attr.x1]="f.x1"
+        [attr.y1]="f.y1"
+        [attr.x2]="f.x2"
+        [attr.y2]="f.y2"
+      />
+    }
+  </svg>
+
+  <div class="hotspots">
+    @for (h of hotspots(); track h.id) {
+      <button
+        type="button"
+        class="hotspot"
+        [attr.data-hotspot]="h.id"
+        [style.left.%]="h.posicion.x"
+        [style.top.%]="h.posicion.y"
+        [attr.aria-label]="h.etiquetaAccesible"
+        (click)="abrir(h.id, $event)"
+      ></button>
+    }
+  </div>
+</div>
+
+<app-popup />
+
+<nav class="retrato-lista" aria-label="Índice del retrato">
+  <ul>
+    @for (h of hotspots(); track h.id) {
+      <li>
+        <button type="button" (click)="abrir(h.id, $event)">{{ h.titulo }}</button>
+      </li>
+    }
+  </ul>
+</nav>

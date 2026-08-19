@@ -1,11 +1,10 @@
-import { Component, inject } from '@angular/core';
-import { LocaleService } from '../../core/services/locale.service';
+import { Component } from '@angular/core';
+import { RetratoComponent } from '../retrato/retrato.component';
 
 @Component({
   selector: 'app-home',
+  imports: [RetratoComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent {
-  protected readonly locale = inject(LocaleService).locale;
-}
+export class HomeComponent {}

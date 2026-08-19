@@ -1,0 +1,29 @@
+@if (hotspot(); as h) {
+  <div class="popup-backdrop" (click)="cerrar()">
+    <div
+      class="popup"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="popup-titulo"
+      cdkTrapFocus
+      cdkTrapFocusAutoCapture
+      [style.--origen-x.px]="origen()?.x"
+      [style.--origen-y.px]="origen()?.y"
+      (click)="$event.stopPropagation()"
+    >
+      <button type="button" class="popup__cerrar" (click)="cerrar()" aria-label="Cerrar">
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+      <p class="popup__eyebrow">{{ h.eyebrow }}</p>
+      <h2 id="popup-titulo" class="popup__titulo">{{ h.titulo }}</h2>
+      <p class="popup__cuerpo">{{ h.cuerpo }}</p>
+
+      @if (h.letra) {
+        <p class="popup__letra">
+          <em>{{ h.letra }}</em>
+        </p>
+      }
+    </div>
+  </div>
+}
