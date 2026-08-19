@@ -1,0 +1,58 @@
+.actos {
+  max-width: 48rem;
+  margin: var(--s-8) auto 0;
+  padding-inline: var(--s-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-8);
+}
+
+.acto__header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  margin-bottom: var(--s-2);
+}
+
+.acto__numero {
+  font-family: var(--f-body);
+  font-size: var(--t-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-terracota);
+}
+
+.acto__titulo {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-size: var(--t-xl);
+  color: var(--c-hueso);
+}
+
+.acto__descripcion {
+  font-family: var(--f-body);
+  color: var(--c-slate);
+  max-width: 36rem;
+  line-height: 1.6;
+}
+
+.acto--pendiente {
+  opacity: 0.6;
+}
+
+.acto__canciones {
+  list-style: none;
+  padding: 0;
+  margin-top: var(--s-4);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: var(--s-3);
+}
+
+.acto__cancion-titulo {
+  margin-top: var(--s-1);
+  font-family: var(--f-body);
+  font-size: var(--t-sm);
+  color: var(--c-hueso);
+  text-align: center;
+}

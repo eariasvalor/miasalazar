@@ -1,0 +1,22 @@
+@if (mostrarEmbed()) {
+  <iframe
+    class="lazy-media__embed"
+    [src]="embedUrl()"
+    width="100%"
+    height="152"
+    frameborder="0"
+    loading="lazy"
+    [title]="cancion().titulo + ' — Spotify'"
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+  ></iframe>
+} @else {
+  <button
+    type="button"
+    class="lazy-media__placeholder"
+    (click)="cargar()"
+    [attr.aria-label]="etiquetaReproducir() + ': ' + cancion().titulo"
+  >
+    <img [src]="cancion().portadaUrl" width="640" height="640" loading="lazy" alt="" />
+    <span class="lazy-media__play" aria-hidden="true">▶</span>
+  </button>
+}

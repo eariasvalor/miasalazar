@@ -1,0 +1,25 @@
+<section class="actos">
+  @for (acto of actos(); track acto.numero) {
+    <article class="acto" [class.acto--pendiente]="!acto.publicado">
+      <header class="acto__header">
+        <span class="acto__numero">Acto {{ acto.numero }}</span>
+        <h2 class="acto__titulo">{{ acto.titulo }}</h2>
+      </header>
+
+      @if (acto.publicado) {
+        <p class="acto__descripcion">{{ acto.descripcion }}</p>
+
+        <ul class="acto__canciones">
+          @for (cancion of cancionesPorActo().get(acto.numero); track cancion.id) {
+            <li>
+              <app-lazy-media [cancion]="cancion" />
+              <p class="acto__cancion-titulo">{{ cancion.titulo }}</p>
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="acto__descripcion">{{ acto.descripcion }}</p>
+      }
+    </article>
+  }
+</section>

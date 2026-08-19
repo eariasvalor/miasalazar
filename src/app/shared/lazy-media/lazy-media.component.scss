@@ -1,0 +1,40 @@
+.lazy-media__placeholder {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 4px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--c-ajolote);
+    outline-offset: 2px;
+  }
+}
+
+.lazy-media__play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: var(--t-xl);
+  color: var(--c-hueso);
+  background: color-mix(in srgb, var(--c-ink) 35%, transparent);
+  transition: background 200ms var(--e-suave);
+}
+
+.lazy-media__placeholder:hover .lazy-media__play,
+.lazy-media__placeholder:focus-visible .lazy-media__play {
+  background: color-mix(in srgb, var(--c-ink) 55%, transparent);
+}
+
+.lazy-media__embed {
+  display: block;
+  border-radius: 4px;
+}

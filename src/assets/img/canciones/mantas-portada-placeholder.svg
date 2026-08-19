@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#10151F"/>
+      <stop offset="1" stop-color="#4A5A6B"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="640" fill="url(#g)"/>
+  <text x="320" y="80" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="22" fill="#EDE6DD" opacity="0.7">Mia Salazar</text>
+  <text text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="40" fill="#EDE6DD"><tspan x="320" y="320">Mantas</tspan></text>
+</svg>
