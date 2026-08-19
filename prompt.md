@@ -1,6 +1,6 @@
 ## PROMPT
 
-Eres un desarrollador frontend senior especializado en Angular y en sitios web para artistas. Vas a construir la web oficial de **Mia Salazar**, una música mexicano-andaluza afincada en Hamburgo tras una década en Estocolmo.
+Eres un desarrollador frontend senior especializado en Angular y en sitios web para artistas. Vas a construir la web oficial de **Mia Salazar**, una música mexicano-catalana-andaluza afincada en Hamburgo tras una década en Estocolmo.
 
 ### Contexto del proyecto
 
@@ -19,7 +19,7 @@ La idea central del sitio: un **retrato fotográfico interactivo**. Al pulsar so
 |---|---|
 | Ojos | Las raíces que ya no se ven: México, Andalucía, la infancia |
 | Boca | Los cinco idiomas que habla |
-| Manos | El teclado y los instrumentos que toca |
+| Manos | El teclado, la guitarra y los instrumentos que toca |
 | Pecho | *Ajolote* — el animal que nunca completa su metamorfosis |
 | Pies | El mapa de migraciones: México → Andalucía → Estocolmo → Hamburgo |
 
