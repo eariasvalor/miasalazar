@@ -24,7 +24,7 @@ export const HOTSPOTS_ES: Hotspot[] = [
     posicion: { x: 47, y: 28 },
     etiquetaAccesible: 'Ver los idiomas que habla Mia',
     eyebrow: 'Idiomas',
-    titulo: 'Cinco lenguas',
+    titulo: 'Lo que hablo',
     cuerpo: 'TODO: ¿cuáles son los cinco idiomas que habla Mia?',
   },
   {
@@ -32,7 +32,7 @@ export const HOTSPOTS_ES: Hotspot[] = [
     posicion: { x: 30, y: 78 },
     etiquetaAccesible: 'Ver los instrumentos que toca Mia',
     eyebrow: 'Instrumentos',
-    titulo: 'Lo que tocan estas manos',
+    titulo: 'Lo que tocan mis manos',
     cuerpo:
       'Teclado, guitarra y otros instrumentos. TODO: confirmar si hay más instrumentos o algún detalle concreto que quieras destacar.',
   },
