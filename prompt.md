@@ -17,11 +17,11 @@ La idea central del sitio: un **retrato fotográfico interactivo**. Al pulsar so
 
 | Parte | Contenido |
 |---|---|
-| Ojos | Las raíces que ya no se ven: México, Andalucía, la infancia |
+| Ojos | Las raíces que ya no se ven: México, Andalucía, Terrassa, la infancia |
 | Boca | Los cinco idiomas que habla |
 | Manos | El teclado, la guitarra y los instrumentos que toca |
 | Pecho | *Ajolote* — el animal que nunca completa su metamorfosis |
-| Pies | El mapa de migraciones: México → Andalucía → Estocolmo → Hamburgo |
+| Pies | El mapa de migraciones: México → Andalucía -> Terrassa → Estocolmo → Hamburgo |
 
 ### Concepto de diseño (respétalo, no lo reinventes)
 
