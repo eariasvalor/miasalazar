@@ -12,7 +12,11 @@
         <ul class="acto__canciones">
           @for (cancion of cancionesPorActo().get(acto.numero); track cancion.id) {
             <li>
-              <app-lazy-media [cancion]="cancion" />
+              @if (cancion.spotifyTrackId) {
+                <app-lazy-media [cancion]="cancion" />
+              } @else {
+                <app-proximo-lanzamiento [cancion]="cancion" />
+              }
               <p class="acto__cancion-titulo">{{ cancion.titulo }}</p>
             </li>
           }

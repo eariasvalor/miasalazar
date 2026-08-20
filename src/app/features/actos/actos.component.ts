@@ -1,10 +1,11 @@
 import { Component, computed, inject } from '@angular/core';
 import { ContentService } from '../../core/services/content.service';
 import { LazyMediaComponent } from '../../shared/lazy-media/lazy-media.component';
+import { ProximoLanzamientoComponent } from '../../shared/proximo-lanzamiento/proximo-lanzamiento.component';
 
 @Component({
   selector: 'app-actos',
-  imports: [LazyMediaComponent],
+  imports: [LazyMediaComponent, ProximoLanzamientoComponent],
   templateUrl: './actos.component.html',
   styleUrl: './actos.component.scss',
 })

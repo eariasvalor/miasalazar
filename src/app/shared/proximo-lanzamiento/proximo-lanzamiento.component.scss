@@ -1,0 +1,78 @@
+.proximo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-1);
+}
+
+picture {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 4px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.proximo__fecha {
+  margin-top: var(--s-1);
+  font-family: var(--f-body);
+  font-size: var(--t-xs);
+  color: var(--c-slate);
+}
+
+.proximo__presave {
+  margin-top: var(--s-1);
+  padding: var(--s-1) var(--s-3);
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  font-family: var(--f-body);
+  font-size: var(--t-sm);
+  color: var(--c-ink);
+  background: var(--c-hueso);
+  border-radius: 999px;
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--c-ajolote);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--c-ajolote);
+    outline-offset: 2px;
+  }
+}
+
+.proximo__cuenta {
+  margin: var(--s-2) 0 0;
+  display: flex;
+  gap: var(--s-3);
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  dd {
+    margin: 0;
+    font-family: var(--f-body);
+    font-weight: 700;
+    font-size: var(--t-lg);
+    color: var(--c-hueso);
+    font-variant-numeric: tabular-nums;
+  }
+
+  dt {
+    font-size: var(--t-xs);
+    color: var(--c-slate);
+    text-transform: uppercase;
+  }
+}

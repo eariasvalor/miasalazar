@@ -10,7 +10,7 @@ export const ACTOS_EN: Acto[] = [
     titulo: 'Death',
     publicado: true,
     descripcion: 'TODO: Act I description.',
-    cancionIds: ['mantas'],
+    cancionIds: ['mantas', 'miedo-de-quererte'],
   },
   {
     numero: 2,

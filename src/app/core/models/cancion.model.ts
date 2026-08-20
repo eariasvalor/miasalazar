@@ -8,4 +8,8 @@ export interface Cancion {
   bandcampAlbumId?: string;
   portadaUrl: string;
   letra?: string[]; // array de versos
+  /** Enlace de pre-save (Spotify for Artists / feature.fm / etc.) para
+   *  canciones aún no publicadas. Su presencia, junto con la ausencia de
+   *  spotifyTrackId, es lo que marca una canción como "próximo lanzamiento". */
+  preSaveUrl?: string;
 }

@@ -9,9 +9,10 @@ import { Cancion } from '../core/models/cancion.model';
  * retrato. Carátulas reales, procesadas con scripts/process-images.mjs a
  * partir de assets-source/canciones/.
  *
- * TODO: fechaLanzamiento — el buscador de Spotify no expone la fecha de
- * publicación, y no voy a inventarla. Necesito que Mia (o quien lleve el
- * Spotify for Artists) me pase las fechas reales de cada single.
+ * TODO: fechaLanzamiento de las 4 canciones ya publicadas — el buscador de
+ * Spotify no expone la fecha de publicación, y no voy a inventarla.
+ * Necesito que Mia (o quien lleve el Spotify for Artists) me las pase.
+ * ("Miedo de quererte" es la excepción: fecha real confirmada por Mia.)
  */
 export const CANCIONES: Cancion[] = [
   {
@@ -21,6 +22,15 @@ export const CANCIONES: Cancion[] = [
     fechaLanzamiento: 'TODO',
     spotifyTrackId: '1HIOLv8QDZGADao8pkd9Oe',
     portadaUrl: 'assets/img/canciones/mantas-portada',
+  },
+  {
+    id: 'miedo-de-quererte',
+    titulo: 'Miedo de quererte',
+    acto: 1,
+    // Fecha real confirmada por Mia: medianoche en Hamburgo (Europe/Berlin).
+    fechaLanzamiento: '2026-09-18T00:00:00+02:00',
+    preSaveUrl: 'https://miasalazar.ffm.to/miedodequererte.OWE',
+    portadaUrl: 'assets/img/canciones/miedo-de-quererte-portada',
   },
   {
     id: 'ajolote',
