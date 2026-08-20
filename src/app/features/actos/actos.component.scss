@@ -45,7 +45,9 @@
   padding: 0;
   margin-top: var(--s-4);
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  // Spotify no reajusta bien su embed por debajo de ~300px: el título se
+  // corta en vez de envolver. 18rem es el mínimo con el que se ve completo.
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   gap: var(--s-3);
 }
 
