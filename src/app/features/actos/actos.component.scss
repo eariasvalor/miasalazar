@@ -1,6 +1,8 @@
 .actos {
   max-width: 48rem;
-  margin: var(--s-8) auto 0;
+  // Sin margen superior: el separador entre el retrato y esta sección
+  // (home.component.scss) ya aporta el espacio de antes.
+  margin: 0 auto;
   padding-inline: var(--s-3);
   display: flex;
   flex-direction: column;
