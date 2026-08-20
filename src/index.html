@@ -2,10 +2,58 @@
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <title>Mia Salazar</title>
+    <title>Mia Salazar — Duelo migratorio en cuatro actos</title>
+    <meta
+      name="description"
+      content="Mia Salazar: música, productora y multiinstrumentista de raíz mexicana y andaluza, afincada en Hamburgo. Una colección de canciones sobre duelo migratorio y reconstrucción de identidad, contada en cuatro actos."
+    />
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <!--
+      Metaetiquetas estáticas: los previsualizadores de redes sociales no
+      ejecutan JavaScript, así que estas no pueden depender de Angular.
+      SeoService actualiza title/description/og:title/og:description en
+      cliente cuando cambia la ruta o el idioma (arquitectura.md §10);
+      esto es el fallback que ven crawlers sin JS y la primera carga.
+
+      TODO: las URLs absolutas (og:url, og:image, hreflang, JSON-LD) usan
+      la URL actual de GitHub Pages porque todavía no hay dominio propio.
+      Cambiar a https://miasalazar.com/ en cuanto lo haya (arquitectura.md §9).
+    -->
+    <meta property="og:title" content="Mia Salazar" />
+    <meta
+      property="og:description"
+      content="Duelo migratorio y reconstrucción de identidad, contadas en cuatro actos."
+    />
+    <meta property="og:image" content="https://eariasvalor.github.io/miasalazar/og-image.jpg" />
+    <meta property="og:type" content="music.musician" />
+    <meta property="og:url" content="https://eariasvalor.github.io/miasalazar/" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="alternate" hreflang="es" href="https://eariasvalor.github.io/miasalazar/#/es/" />
+    <link rel="alternate" hreflang="en" href="https://eariasvalor.github.io/miasalazar/#/en/" />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href="https://eariasvalor.github.io/miasalazar/#/es/"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "MusicGroup",
+        "name": "Mia Salazar",
+        "url": "https://eariasvalor.github.io/miasalazar/",
+        "image": "https://eariasvalor.github.io/miasalazar/og-image.jpg",
+        "sameAs": [
+          "https://open.spotify.com/artist/1tMFF9IkixBOd42mCldDbr",
+          "https://www.instagram.com/miasalazarofficial",
+          "https://www.tiktok.com/@miasalazarmusic"
+        ]
+      }
+    </script>
   </head>
   <body>
     <app-root></app-root>

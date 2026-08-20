@@ -19,7 +19,9 @@
   font-size: var(--t-xs);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--c-terracota);
+  // terracota (3.8:1) no pasa AA en texto pequeño (arquitectura.md §11: solo
+  // bordes/acentos); ajolote sí (7.7:1) y mantiene el acento cálido.
+  color: var(--c-ajolote);
 }
 
 .acto__titulo {
