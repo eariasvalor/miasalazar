@@ -70,7 +70,11 @@ miasalazar/                         # nombre del repo; el proyecto Angular inter
 ├── public/
 │   ├── CNAME                       # ⬜ solo cuando haya dominio propio
 │   ├── .nojekyll                   # ✅
-│   ├── favicon.ico                 # ✅ (favicon.svg queda pendiente, de momento el .ico por defecto de ng new)
+│   ├── favicon.svg                 # ✅ mismo motivo visual que los filamentos del retrato
+│   ├── favicon.ico                 # ✅ fallback 16/32px para navegadores sin soporte SVG
+│   ├── apple-touch-icon.png        # ✅ 180×180
+│   ├── icon-192.png / icon-512.png # ✅ para site.webmanifest
+│   ├── site.webmanifest            # ✅
 │   └── og-image.jpg                # ⬜ Fase 5
 ├── src/
 │   ├── app/
