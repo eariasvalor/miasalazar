@@ -7,6 +7,29 @@
   justify-content: center;
   padding: var(--s-3);
   background: color-mix(in srgb, var(--c-ink) 80%, transparent);
+  animation: backdrop-in 220ms ease;
+
+  &.saliendo {
+    animation: backdrop-out 200ms ease forwards;
+  }
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes backdrop-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 .popup {
@@ -26,17 +49,34 @@
   // sin necesidad de medir el layout del popup tras renderizarlo.
   transform-origin: calc(50% + (var(--origen-x, 50vw) - 50vw))
     calc(50% + (var(--origen-y, 50vh) - 50vh));
-  animation: popup-in 240ms var(--e-suave);
+  animation: popup-in 320ms var(--e-pop);
+
+  &.saliendo {
+    // Al cerrar no se usa el rebote de --e-pop: encoge en línea recta,
+    // más rápido que la apertura (las salidas se sienten mejor más ágiles).
+    animation: popup-out 180ms var(--e-suave) forwards;
+  }
 }
 
 @keyframes popup-in {
   from {
     opacity: 0;
-    transform: scale(0.35);
+    transform: scale(0.4);
   }
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes popup-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.4);
   }
 }
 
