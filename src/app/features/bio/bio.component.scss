@@ -1,5 +1,7 @@
 .bio {
-  max-width: 38rem;
+  // Mismo max-width y padding-inline que .actos, para que los bordes
+  // izquierdo/derecho coincidan entre las dos secciones.
+  max-width: 48rem;
   margin: 0 auto var(--s-8);
   padding-inline: var(--s-3);
   display: flex;
