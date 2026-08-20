@@ -13,14 +13,6 @@ body {
   height: 100%;
 }
 
-html {
-  // Reserva siempre el ancho de la barra de scroll, esté visible o no.
-  // Si no, al poner overflow:hidden en el body para el popup, la barra
-  // desaparece y todo el contenido salta hacia la derecha para ocupar
-  // ese hueco.
-  scrollbar-gutter: stable;
-}
-
 body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeSpeed;

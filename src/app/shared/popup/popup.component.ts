@@ -2,6 +2,12 @@ import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { DOCUMENT, Component, HostListener, effect, inject, signal } from '@angular/core';
 import { PopupService } from '../../core/services/popup.service';
 
+function anchoBarraScroll(document: Document): number {
+  const w = document.defaultView;
+  if (!w) return 0;
+  return w.innerWidth - document.documentElement.clientWidth;
+}
+
 @Component({
   selector: 'app-popup',
   imports: [CdkTrapFocus],
@@ -22,7 +28,18 @@ export class PopupComponent {
 
   constructor() {
     effect(() => {
-      this.document.body.style.overflow = this.hotspot() ? 'hidden' : '';
+      if (this.hotspot()) {
+        // Medir el hueco de la barra de scroll ANTES de ocultarla: una vez
+        // puesto overflow:hidden ya no hay diferencia que medir. En
+        // sistemas con scrollbar superpuesto (no ocupa layout) esto da 0,
+        // así que el padding no tiene ningún efecto ahí.
+        const ancho = anchoBarraScroll(this.document);
+        this.document.body.style.overflow = 'hidden';
+        this.document.body.style.paddingRight = ancho > 0 ? `${ancho}px` : '';
+      } else {
+        this.document.body.style.overflow = '';
+        this.document.body.style.paddingRight = '';
+      }
     });
   }
 
