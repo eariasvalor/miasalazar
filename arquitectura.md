@@ -84,37 +84,35 @@ miasalazar/                         # nombre del repo; el proyecto Angular inter
 │   │   │   │   └── seo.service.ts          # ⬜ Fase 5: title + meta tags + hreflang por ruta
 │   │   │   └── models/
 │   │   │       ├── hotspot.model.ts        # ✅
-│   │   │       ├── acto.model.ts           # ⬜ Fase 3
-│   │   │       ├── cancion.model.ts        # ⬜ Fase 3
+│   │   │       ├── acto.model.ts           # ✅
+│   │   │       ├── cancion.model.ts        # ✅
 │   │   │       └── locale.model.ts         # ✅ type Locale = 'es' | 'en'
 │   │   ├── data/
 │   │   │   ├── es/
 │   │   │   │   ├── hotspots.data.ts        # ✅ (varios campos siguen en TODO, ver §13)
-│   │   │   │   ├── actos.data.ts           # ⬜ Fase 3
+│   │   │   │   ├── actos.data.ts           # ✅ (descripción de Actos I y IV en TODO)
 │   │   │   │   └── bio.data.ts             # ⬜
 │   │   │   ├── en/
 │   │   │   │   ├── hotspots.data.ts        # ✅
-│   │   │   │   ├── actos.data.ts           # ⬜ Fase 3
+│   │   │   │   ├── actos.data.ts           # ✅
 │   │   │   │   └── bio.data.ts             # ⬜
-│   │   │   └── canciones.data.ts           # ⬜ Fase 3: sin traducir — títulos, IDs, fechas, enlaces
+│   │   │   └── canciones.data.ts           # ✅ los 4 singles publicados, IDs de Spotify verificados
 │   │   ├── features/
 │   │   │   ├── home/
-│   │   │   │   └── home.component.*        # ✅ monta <app-retrato>
+│   │   │   │   └── home.component.*        # ✅ monta <app-retrato> + <app-actos>
 │   │   │   ├── retrato/
 │   │   │   │   ├── retrato.component.ts    # ✅ imagen + hotspots + filamentos calculados + lista alternativa
 │   │   │   │   ├── retrato.component.html
 │   │   │   │   └── retrato.component.scss
 │   │   │   ├── actos/
-│   │   │   │   └── actos.component.*       # ⬜ Fase 3: los 4 actos + canciones
-│   │   │   ├── escucha/
-│   │   │   │   └── escucha.component.*     # ⬜ Fase 3: embeds Spotify/YouTube
+│   │   │   │   └── actos.component.*       # ✅ los 4 actos + canciones, Acto II en pendiente
 │   │   │   └── contacto/
 │   │   │       └── contacto.component.*    # ⬜
 │   │   ├── shared/
 │   │   │   ├── popup/
 │   │   │   │   └── popup.component.*       # ✅ modal accesible reutilizable
 │   │   │   ├── lazy-media/
-│   │   │   │   └── lazy-media.component.*  # ⬜ Fase 3: embeds con carga diferida
+│   │   │   │   └── lazy-media.component.*  # ✅ embed de Spotify con carga diferida (YouTube: ⬜, sin IDs aún)
 │   │   │   └── directives/
 │   │   │       └── reveal-on-scroll.directive.ts  # ⬜
 │   │   ├── app.component.ts                # ✅ cabecera + selector ES/EN + <html lang> dinámico
@@ -123,6 +121,7 @@ miasalazar/                         # nombre del repo; el proyecto Angular inter
 │   ├── assets/
 │   │   ├── img/
 │   │   │   ├── retrato/                    # ✅ AVIF/WebP en 640/1024/1179px (foto placeholder)
+│   │   │   ├── canciones/                  # ✅ AVIF/WebP en 320/640px — carátulas reales, no placeholder
 │   │   │   └── galeria/                    # ⬜ Fase 4
 │   │   └── fonts/                          # ⬜ Fraunces/Inter aún no autoalojadas, ver §7
 │   ├── styles/
@@ -136,6 +135,8 @@ miasalazar/                         # nombre del repo; el proyecto Angular inter
 ├── package.json
 └── README.md
 ```
+
+**Nota sobre `features/escucha/`:** el árbol original de §3 preveía un componente separado para los embeds de Spotify/YouTube. En la práctica, `ActosComponent` + `LazyMediaComponent` ya cubren esa responsabilidad sin necesitar una feature aparte — no se ha creado esa carpeta, no es un olvido.
 
 ---
 
@@ -191,6 +192,8 @@ export interface Cancion {
 
 **Regla:** los IDs de Spotify/YouTube se guardan sueltos, nunca la URL completa del embed. El componente construye la URL. Así, si cambia el formato del embed, se toca un sitio.
 
+**Implementado con una convención más:** `portadaUrl` es la ruta base sin extensión ni ancho (p. ej. `assets/img/canciones/mantas-portada`), igual que el retrato. `LazyMediaComponent` añade `-320`/`-640` y `.avif`/`.webp` para construir el `<picture>`, así que añadir una canción con carátula responsive no requiere tocar el componente — solo generar los archivos con `scripts/process-images.mjs` y apuntar `portadaUrl` a la base.
+
 ---
 
 ## 5. Componentes
@@ -238,9 +241,15 @@ Un iframe de Spotify o YouTube carga entre 500KB y 1MB y coloca cookies de terce
 
 Beneficios: carga inicial mucho más rápida, mejor puntuación Lighthouse, y menos exposición de cookies de terceros (relevante para RGPD, ver §8).
 
+**Implementado (solo Spotify por ahora, YouTube queda para cuando haga falta):** verificado con Playwright que 0 iframes se cargan antes de interactuar y exactamente 1 aparece tras el clic, con el `spotifyTrackId` correcto. La URL del iframe (`open.spotify.com/embed/track/{id}`) se sanitiza con `DomSanitizer.bypassSecurityTrustResourceUrl` solo en el momento del clic, nunca antes.
+
+**Lección de tamaño:** el embed de Spotify no reajusta bien su contenido por debajo de ~280px de ancho — el título se corta por ambos lados sin puntos suspensivos en vez de envolver o truncar con ellipsis. Se usa el embed "normal" (`height="352"`, pensado para columnas estrechas tipo carátula) en vez del compacto (`height="152"`, pensado para filas anchas), y las tarjetas del grid tienen un mínimo de `18rem` (`.acto__canciones` en `actos.component.scss`). No se pudo contrastar contra Spotify en vivo durante el desarrollo porque su dominio está bloqueado en el entorno de red de Claude Code — se ajustó con el feedback visual de Mia en su propio navegador.
+
 ### 5.4 `ActosComponent`
 
 Los cuatro actos, cada uno con sus canciones. El Acto II se renderiza en estado "pendiente" a partir del flag `publicado: false` — no se comenta el código ni se borra, para que publicar el acto sea cambiar un booleano.
+
+**Implementado.** Los `spotifyTrackId` de las 4 canciones publicadas están verificados contra los singles reales del artista (no inventados). Las portadas (`portadaUrl`, ver §4) son las carátulas reales que pasó Mia directamente por chat — no se pudieron descargar de Spotify por el mismo bloqueo de red. `fechaLanzamiento` sigue en `TODO` en las 4: el buscador usado para verificar los IDs no expone fecha de publicación.
 
 ### 5.5 Internacionalización (ES/EN)
 
@@ -534,8 +543,8 @@ Proyecto Angular, tokens de diseño, despliegue funcionando en Pages con una pá
 **Fase 2 — Retrato ✅ completada** (contenido aún parcial, ver §13)
 `RetratoComponent` + `PopupComponent` con contenido real. Es el núcleo: si esto no funciona bien, el resto no importa. Falta: foto definitiva (se usa una placeholder), textos de ojos/manos/pies (marcados `TODO` en `hotspots.data.ts`), fuentes Fraunces/Inter autoalojadas.
 
-**Fase 3 — Actos y música ⬜ siguiente**
-`ActosComponent`, `LazyMediaComponent`, embeds de las cuatro canciones publicadas.
+**Fase 3 — Actos y música ✅ completada**
+`ActosComponent`, `LazyMediaComponent`, embeds de las cuatro canciones publicadas. IDs de Spotify y carátulas reales (no inventados ni placeholder). Falta: fechas de lanzamiento (`TODO`), descripción de los Actos I y IV, embeds de YouTube (sin IDs todavía).
 
 **Fase 4 — Galería y audiovisual ⬜**
 Fotografías, vídeos, material de prensa.
@@ -552,7 +561,10 @@ Ya resuelto: el sitio será **bilingüe, español e inglés** (§5.5). El conten
 Pendientes de resolver con Mia:
 
 - **¿Newsletter?** Si va a ir publicando canción a canción, tener una lista propia vale más que depender del algoritmo de Spotify.
-- **Fotografías definitivas** y sus derechos de uso (las de prensa suelen tener crédito de fotógrafo obligatorio). De momento se usa una foto placeholder de busto; además de no ser la definitiva, no muestra pies y dificulta ubicar bien las manos, así que las posiciones de esos dos hotspots son provisionales.
+- **Fotografía definitiva del retrato** y sus derechos de uso (las de prensa suelen tener crédito de fotógrafo obligatorio). De momento se usa una foto placeholder de busto; además de no ser la definitiva, no muestra pies y dificulta ubicar bien las manos, así que las posiciones de esos dos hotspots son provisionales. (Las carátulas de las 4 canciones ya son las reales — eso sí está resuelto.)
 - **Nombre del Acto II** cuando se publique.
 - **Textos definitivos en inglés**: si los traduce ella misma o se encarga el equipo — afecta al tono, sobre todo en las citas de letras, donde una traducción literal puede perder el registro. Resuelto parcialmente: el texto de "boca" (saludo en los cinco idiomas) es idéntico en ambos locales por naturaleza, así que no depende de esta decisión.
 - **Textos aún en `TODO` en `hotspots.data.ts`**: la historia de "ojos" (raíces/infancia), detalle de "manos" (¿más instrumentos?) y fechas del mapa de "pies". Confirmados hasta ahora: los cinco idiomas de "boca" (español, catalán, inglés, sueco, alemán).
+- **Fechas de lanzamiento** de las 4 canciones (`fechaLanzamiento: 'TODO'` en `canciones.data.ts`) — el buscador usado para verificar los IDs de Spotify no expone esa fecha.
+- **Descripción de los Actos I y IV** en `actos.data.ts` (el III ya tiene la del concepto del ajolote, ya aprobado en el brief).
+- **IDs de YouTube**, si se quiere ofrecer esa alternativa además de Spotify.
