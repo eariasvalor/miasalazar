@@ -14,7 +14,7 @@ export const ACTOS_EN: Acto[] = [
   },
   {
     numero: 2,
-    titulo: 'TODO',
+    titulo: 'Coming soon',
     publicado: false,
     descripcion: 'Not published yet.',
     cancionIds: [],
