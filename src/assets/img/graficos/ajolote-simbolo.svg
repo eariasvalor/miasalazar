@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 140">
+  <!-- cuerpo: cola afilada, ligera cintura antes de la cabeza más redonda -->
+  <path
+    d="M6,86
+       C18,64 46,52 78,50
+       C104,48 126,52 148,50
+       C158,49 160,44 168,44
+       C186,44 202,52 210,66
+       C216,76 214,84 204,90
+       C188,100 162,102 142,98
+       C120,94 100,98 78,100
+       C52,102 26,100 10,92
+       C6,90 4,88 6,86 Z"
+    fill="none"
+    stroke="#ede6dd"
+    stroke-width="3"
+    stroke-linejoin="round"
+  />
+
+  <!-- patas: pequeñas, con el pie apuntado -->
+  <path
+    d="M74,99 C70,108 63,112 55,111 M64,111 L52,110"
+    fill="none"
+    stroke="#ede6dd"
+    stroke-width="2.4"
+    stroke-linecap="round"
+  />
+  <path
+    d="M150,98 C147,108 140,112 131,111 M141,111 L129,110"
+    fill="none"
+    stroke="#ede6dd"
+    stroke-width="2.4"
+    stroke-linecap="round"
+  />
+
+  <!-- cara: ojo + la sonrisa característica del ajolote -->
+  <circle cx="188" cy="58" r="3" fill="#ede6dd" />
+  <path d="M192,72 C198,78 206,78 210,73" fill="none" stroke="#ede6dd" stroke-width="2" stroke-linecap="round" />
+
+  <!-- branquias: mismo lenguaje visual que los filamentos del retrato -->
+  <g stroke="#e3919c" stroke-width="2.5" stroke-linecap="round" fill="#e3919c">
+    <path d="M172,48 C166,32 174,18 188,12" fill="none" />
+    <circle cx="188" cy="12" r="3" />
+    <path d="M172,48 C163,20 176,18 176,18" fill="none" />
+    <circle cx="176" cy="18" r="2.4" />
+
+    <path d="M182,45 C186,26 200,17 214,17" fill="none" />
+    <circle cx="214" cy="17" r="3" />
+    <path d="M182,45 C190,22 202,25 202,25" fill="none" />
+    <circle cx="202" cy="25" r="2.4" />
+
+    <path d="M190,50 C200,38 216,33 228,39" fill="none" />
+    <circle cx="228" cy="39" r="3" />
+    <path d="M190,50 C202,43 212,47 212,47" fill="none" />
+    <circle cx="212" cy="47" r="2.4" />
+  </g>
+</svg>
